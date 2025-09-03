@@ -19,6 +19,8 @@
     <link href="https://fonts.googleapis.com/css?family=Caveat:700|Poppins:400,500,600,700" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script src="bundle.js"></script>
+    <!-- Google Sign-In Library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
     /* Option 1: Minimalist Tech Header */
@@ -142,6 +144,89 @@
         100% { opacity: 1; }
     }
 
+    /* Google Sign-In Styles */
+    .google-signin-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .google-signin-btn {
+        background: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .google-signin-btn:hover {
+        background: #3367d6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .google-signin-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .google-icon {
+        width: 18px;
+        height: 18px;
+        background: white;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #4285f4;
+        font-size: 12px;
+    }
+
+    .user-profile {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+    }
+
+    .user-profile.show {
+        display: flex;
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .signout-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .signout-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
     .tech-header__mobile-toggle {
         display: none;
         background: none;
@@ -167,6 +252,11 @@
         /* Scale down logo slightly on mobile to prevent overflow */
         .tech-header__logo {
             height: 55px;
+        }
+        
+        /* Hide Google Sign-In on very small screens to prevent overcrowding */
+        .google-signin-container {
+            display: none;
         }
     }
 
@@ -252,7 +342,20 @@
             <a href="https://www.allseeingtech.ca/" class="tech-header__brand">
                 <img src="assets/AllSeeingTransparentLogo.png" alt="AllSeeing" class="tech-header__logo">
                 <span class="tech-header__title">SignalGPT</span>
-            </a>            
+            </a>
+            <div class="tech-header__nav">
+                <div class="google-signin-container">
+                    <button id="google-signin-btn" class="google-signin-btn">
+                        <div class="google-icon">G</div>
+                        Sign in with Google
+                    </button>
+                    <div id="user-profile" class="user-profile">
+                        <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                        <span id="user-name"></span>
+                        <button id="signout-btn" class="signout-btn">Sign out</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -264,6 +367,145 @@
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
+        }
+    });
+
+    // Google Sign-In Configuration
+    const GOOGLE_CLIENT_ID = '662162600168-6h64t71gmjai2gh3h4du4mroajbt7kos.apps.googleusercontent.com';
+    
+    let google_loaded = false;
+
+    // Initialize Google Sign-In when the API is loaded
+    function initializeGoogleSignIn() {
+        if (typeof google !== 'undefined' && google.accounts) {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+            google_loaded = true;
+            console.log('Google Sign-In initialized successfully');
+        } else {
+            console.log('Google API not yet loaded, retrying...');
+            setTimeout(initializeGoogleSignIn, 100);
+        }
+    }
+
+    // Handle the credential response from Google
+    function handleCredentialResponse(response) {
+        try {
+            // Decode the JWT token to get user information
+            const userInfo = parseJwt(response.credential);
+            console.log('User signed in:', userInfo);
+            
+            // Show user profile
+            showUserProfile(userInfo);
+            
+            // Store user info in localStorage for persistence
+            localStorage.setItem('signalGPT_user', JSON.stringify(userInfo));
+            
+        } catch (error) {
+            console.error('Error handling credential response:', error);
+        }
+    }
+
+    // Parse JWT token
+    function parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (error) {
+            console.error('Error parsing JWT:', error);
+            return null;
+        }
+    }
+
+    // Show user profile and hide sign-in button
+    function showUserProfile(userInfo) {
+        const signinBtn = document.getElementById('google-signin-btn');
+        const userProfile = document.getElementById('user-profile');
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+
+        if (userInfo && userInfo.name) {
+            signinBtn.style.display = 'none';
+            userProfile.classList.add('show');
+            userAvatar.src = userInfo.picture || '';
+            userName.textContent = userInfo.name;
+        }
+    }
+
+    // Hide user profile and show sign-in button
+    function hideUserProfile() {
+        const signinBtn = document.getElementById('google-signin-btn');
+        const userProfile = document.getElementById('user-profile');
+        
+        signinBtn.style.display = 'flex';
+        userProfile.classList.remove('show');
+        
+        // Clear stored user info
+        localStorage.removeItem('signalGPT_user');
+    }
+
+    // Sign out function
+    function signOut() {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.disableAutoSelect();
+        }
+        hideUserProfile();
+        console.log('User signed out');
+    }
+
+    // Check for existing user session on page load
+    function checkExistingSession() {
+        const storedUser = localStorage.getItem('signalGPT_user');
+        if (storedUser) {
+            try {
+                const userInfo = JSON.parse(storedUser);
+                showUserProfile(userInfo);
+            } catch (error) {
+                console.error('Error parsing stored user info:', error);
+                localStorage.removeItem('signalGPT_user');
+            }
+        }
+    }
+
+    // Initialize everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for existing session
+        checkExistingSession();
+        
+        // Initialize Google Sign-In
+        initializeGoogleSignIn();
+        
+        // Sign-in button click handler
+        const signinBtn = document.getElementById('google-signin-btn');
+        if (signinBtn) {
+            signinBtn.addEventListener('click', function() {
+                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                    google.accounts.id.prompt();
+                } else {
+                    console.error('Google Sign-In not initialized');
+                }
+            });
+        }
+        
+        // Sign-out button click handler
+        const signoutBtn = document.getElementById('signout-btn');
+        if (signoutBtn) {
+            signoutBtn.addEventListener('click', signOut);
+        }
+    });
+
+    // Retry initialization if Google API loads after DOMContentLoaded
+    window.addEventListener('load', function() {
+        if (!google_loaded) {
+            initializeGoogleSignIn();
         }
     });
     </script>
