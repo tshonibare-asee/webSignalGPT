@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SignalGPT - Login</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="assets/static/favicon/favicon-152.png">
+    <link rel="shortcut icon" sizes="192x192" href="assets/static/favicon/favicon-192.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Caveat:700|Poppins:400,500,600,700" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    
+    <!-- Google OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .login-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .login-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 400px;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-header {
+            margin-bottom: 2rem;
+        }
+
+        .login-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-signalgpt {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-allseeing {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .allseeing-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(46, 125, 50, 0.1);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: #2e7d32;
+            margin-bottom: 2rem;
+        }
+
+        .security-icon {
+            width: 16px;
+            height: 16px;
+            background: #2e7d32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .google-signin-container {
+            margin: 2rem 0;
+        }
+
+        .custom-google-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 250px;
+            justify-content: center;
+        }
+
+        .custom-google-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .features-list {
+            text-align: left;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+        }
+
+        .features-list h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .features-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #5a6c7d;
+            font-size: 0.9rem;
+        }
+
+        .feature-check {
+            width: 16px;
+            height: 16px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            margin: 1rem auto;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4285f4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: none;
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            color: #c0392b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+                min-width: auto;
+                max-width: 90vw;
+            }
+            
+            .login-logos {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .logo-signalgpt {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-bg"></div>
+    
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logos">
+                <div class="logo-signalgpt">SignalGPT</div>
+                <div class="logo-allseeing">
+                    <div class="allseeing-icon">A</div>
+                    <span>AllSeeing</span>
+                </div>
+            </div>
+            
+            <h1 class="login-title">Secure Access Required</h1>
+            <p class="login-subtitle">
+                Please authenticate with your Google account to access SignalGPT's advanced RF signal analysis and machine learning capabilities.
+            </p>
+            
+            <div class="security-badge">
+                <div class="security-icon">🔒</div>
+                Secure OAuth 2.0 Authentication
+            </div>
+        </div>
+
+        <div class="google-signin-container">
+            <!-- TODO: Replace YOUR_GOOGLE_CLIENT_ID with actual Google OAuth Client ID -->
+            <!-- See AUTHENTICATION.md for setup instructions -->
+            <div id="g_id_onload"
+                 data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+            
+            <button class="custom-google-btn" onclick="initiateGoogleSignIn()">
+                <div class="google-icon">G</div>
+                Sign in with Google
+            </button>
+            
+            <div class="loading-spinner" id="loadingSpinner"></div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="features-list">
+            <h4>What you'll get access to:</h4>
+            <ul>
+                <li>
+                    <div class="feature-check">✓</div>
+                    RF Signal Classification & Analysis
+                </li>
+                <li>
+                    <div class="feature-check">✓</div>
+                    Machine Learning Model Training
+                </li>
+                <li>
+                    <div class="feature-check">✓</div>
+                    Real-time Waterfall Visualization
+                </li>
+                <li>
+                    <div class="feature-check">✓</div>
+                    Secure Cloud Synchronization
+                </li>
+                <li>
+                    <div class="feature-check">✓</div>
+                    Advanced Photonics Integration
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Google OAuth Configuration
+        // TODO: Replace with your actual Google OAuth Client ID
+        // See AUTHENTICATION.md for setup instructions
+        const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with actual client ID
+
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: false
+            });
+        }
+
+        // Handle credential response from Google
+        function handleCredentialResponse(response) {
+            showLoading(true);
+            hideError();
+            
+            try {
+                // Decode the JWT token to get user info
+                const userInfo = parseJwt(response.credential);
+                
+                // Store authentication data
+                const authData = {
+                    token: response.credential,
+                    user: {
+                        id: userInfo.sub,
+                        name: userInfo.name,
+                        email: userInfo.email,
+                        picture: userInfo.picture
+                    },
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('signalgpt_auth', JSON.stringify(authData));
+                
+                // Redirect to main application
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+                
+            } catch (error) {
+                showError('Authentication failed. Please try again.');
+                showLoading(false);
+            }
+        }
+
+        // Initiate Google Sign-In when button is clicked
+        function initiateGoogleSignIn() {
+            showLoading(true);
+            hideError();
+            
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    showError('Please enable popups and try again.');
+                    showLoading(false);
+                }
+            });
+        }
+
+        // Parse JWT token
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+
+        // Show/hide loading spinner
+        function showLoading(show) {
+            document.getElementById('loadingSpinner').style.display = show ? 'block' : 'none';
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Check if already authenticated
+        function checkExistingAuth() {
+            const authData = localStorage.getItem('signalgpt_auth');
+            if (authData) {
+                try {
+                    const parsed = JSON.parse(authData);
+                    // Check if token is still valid (within 1 hour)
+                    if (Date.now() - parsed.timestamp < 3600000) {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+                } catch (e) {
+                    // Invalid stored data, clear it
+                    localStorage.removeItem('signalgpt_auth');
+                }
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            checkExistingAuth();
+            
+            // Initialize Google Sign-In when the API loads
+            if (typeof google !== 'undefined' && google.accounts) {
+                initializeGoogleSignIn();
+            } else {
+                // Wait for Google API to load
+                window.addEventListener('google-loaded', initializeGoogleSignIn);
+            }
+        });
+
+        // Handle Google API load
+        window.onload = function() {
+            if (typeof google !== 'undefined') {
+                initializeGoogleSignIn();
+            }
+        };
+    </script>
+</body>
+</html>

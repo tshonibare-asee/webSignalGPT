@@ -57330,7 +57330,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // limitations under the License.
 
 /* eslint-disable camelcase, max-lines,  */
-var IMAGE_SIZE_WIDTH = 220;
+var IMAGE_SIZE_WIDTH = 270;
 var IMAGE_SIZE_HEIGHT = 25;
 var INPUT_SIZE = 1000;
 var TOPK = 10;
@@ -57390,9 +57390,7 @@ var WebcamClassifier = function () {
     this.video.setAttribute('playsinline', '');
 
     // For kiwi input we draw images into this.frameCanvas and treat it like our "source"
-    //this.frameCanvas = document.getElementById('wf-canvas');
-    //TAYO
-    this.frameCanvas = document.getElementById('wf-canvas') || document.createElement('canvas');
+    this.frameCanvas = document.getElementById('wf-canvas');
     this.fifoSize = 11;
     this.fifo = []; // [{canvas, ctx}, ... newest = index 0]
     this.stripEl = document.getElementById('wf-strip');
@@ -60779,62 +60777,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var LearningClass = function () {
 	function LearningClass(options) {
 		_classCallCheck(this, LearningClass);
-
-		this.element = options.element;
-		this.section = options.section;
-		this.canvas = this.element.querySelector('canvas.examples__viewer');
-		this.canvas.width = 98;
-		this.canvas.height = 98;
-		this.context = this.canvas.getContext('2d');
-
-		this.id = this.element.getAttribute('id');
-		this.index = options.index;
-		this.button = new _Button2.default(this.element.querySelector('a.button--record'));
-		this.button.element.addEventListener('mousedown', this.buttonDown.bind(this));
-
-		this.button.element.addEventListener('touchstart', this.buttonDown.bind(this));
-		this.button.element.addEventListener('touchend', this.buttonUp.bind(this));
-
-		this.resetLink = this.element.querySelector('.link--reset');
-		// this.button.element.addEventListener('mouseup', this.buttonUp.bind(this));
-		this.exampleCounterElement = this.element.querySelector('.examples__counter');
-		this.exampleCounter = 0;
-
-		this.percentage = 0;
-		this.percentageElement = this.element.querySelector('.machine__value');
-		this.percentageGrey = this.element.querySelector('.machine__percentage--grey');
-		this.percentageWhite = this.element.querySelector('.machine__percentage--white');
-		this.color = options.color;
-		this.rgbaColor = options.rgbaColor;
-
-		this.arrow = new _HighlightArrow2.default(3);
-		this.arrow.element.style.left = 100 + '%';
-		this.arrow.element.style.top = 100 + '%';
-		this.arrow.element.width = 60;
-		_gsap2.default.set(this.arrow.element, {
-			rotation: 90,
-			scale: 1,
-			x: 10,
-			y: -75
-		});
-		this.element.appendChild(this.arrow.element);
-
-		this.arrowX = new _HighlightArrow2.default(2);
-		this.arrowX.element.style.left = 0 + '%';
-		this.arrowX.element.style.top = 0 + '%';
-		this.arrowX.element.width = 60;
-		_gsap2.default.set(this.arrowX.element, {
-			rotation: -90,
-			scaleX: -0.8,
-			scaleY: 0.8,
-			x: 37,
-			y: -30
-		});
-		this.element.appendChild(this.arrowX.element);
-
-		this.resetLink.addEventListener('click', this.resetClass.bind(this));
-		this.size();
-		window.addEventListener('resize', this.size.bind(this));
 	}
 
 	_createClass(LearningClass, [{
@@ -61708,7 +61650,7 @@ var Recording = function () {
     }, {
         key: 'stopRecording',
         value: function stopRecording() {
-            // this.recordingState = 'linkedin';
+            // this.recordingState = 'Facebook';
             if (this.mediaRecorder.state !== 'inactive') {
                 this.mediaRecorder.stop();
             }
@@ -61934,7 +61876,7 @@ var Recording = function () {
                 xhr.open('POST', '/share-video');
                 xhr.onload = function () {
                     if (xhr.status === 200) {
-                        _this7.downloadPreText.innerText = 'Posted to linkedin. ';
+                        _this7.downloadPreText.innerText = 'Posted to Facebook. ';
                         // console.log('Something went wrong.  Name is now ' + xhr.responseText);
                     } else if (xhr.status !== 200) {
                         _this7.downloadPreText.innerText = 'Sorry, something went wrong. ';
@@ -61943,7 +61885,7 @@ var Recording = function () {
                 };
                 xhr.send(formData);
             };
-            var popup = window.open('/fb', 'Share on linkedin', 'width=600, height=600');
+            var popup = window.open('/fb', 'Share on Facebook', 'width=600, height=600');
             popup.focus();
             gtag('event', 'recording_share');
         }
@@ -62094,6 +62036,7 @@ var WiresLeft = function () {
         this.canvas = document.createElement('canvas');
         this.size();
         this.element.appendChild(this.canvas);
+
         this.wireGeneral = this.element.querySelector('.st0');
         this.wireGreen = this.element.querySelector('.wire-green');
         this.wirePurple = this.element.querySelector('.wire-purple');
@@ -62114,40 +62057,21 @@ var WiresLeft = function () {
 
     _createClass(WiresLeft, [{
         key: 'render',
-        value: function render(once) {
+        value: function render() {
             this.context.clearRect(0, 0, this.width, this.height);
             this.context.lineWidth = 3;
 
-            for (var index = 0; index < 3; index += 1) {
+            for (var i = 0; i < 3; i += 1) {
+                var start = { x: 0, y: this.startY + this.startSpace * i };
+                var end = { x: this.endX, y: this.endY + this.endSpace * i + 120 * i };
 
-                var startY = this.startY + this.startSpace * index;
-                var endY = this.endY + this.endSpace * index;
+                var cp1 = { x: 35, y: start.y };
+                var cp2 = { x: 10, y: end.y };
 
-                var start = {
-                    x: 0,
-                    y: this.startY + this.startSpace * index
-                };
-
-                var end = {
-                    x: this.endX,
-                    y: this.endY + this.endSpace * index
-                };
-
-                var cp1 = {
-                    x: 35,
-                    y: start.y
-                };
-
-                var cp2 = {
-                    x: 10,
-                    y: end.y
-                };
-
-                this.context.strokeStyle = '#cfd1d2';
-
-                if (this.animator[index].highlight) {
-                    this.context.strokeStyle = this.animator[index].color;
-                }
+                var anim = this.animator[i] || {};
+                var maybe = anim.color;
+                var safeColor = typeof maybe === 'string' && maybe ? maybe : '#cfd1d2';
+                this.context.strokeStyle = anim.highlight ? safeColor : '#cfd1d2';
 
                 this.context.beginPath();
                 this.context.moveTo(start.x, start.y);
@@ -62230,16 +62154,18 @@ var WiresLeft = function () {
 
             this.width = this.element.offsetWidth;
 
-            var firstLearningClass = this.learningClasses[0];
-            var lastLearningClass = this.learningClasses[2];
+            var count = this.learningClasses.length;
+            var first = this.learningClasses[0];
+            var last = this.learningClasses[count - 1] || first;
 
-            var classesHeight = lastLearningClass.offsetTop - firstLearningClass.offsetTop;
+            var classesHeight = last.offsetTop - first.offsetTop;
+            this.endSpace = count > 1 ? classesHeight / (count - 1) : 0;
 
             this.height = 440;
 
             // remove offset on desktop
             this.element.setAttribute('style', '');
-            this.endSpace = classesHeight / 2;
+            //this.endSpace = classesHeight / 2;
 
             this.canvas.width = this.width;
             this.canvas.height = this.height;
@@ -62253,14 +62179,10 @@ var WiresLeft = function () {
             this.endY = 80;
 
             this.animator = {};
-            for (var index = 0; index < 3; index += 1) {
-                var id = _config2.default.classNames[index];
-                this.animator[index] = {
-                    highlight: false,
-                    percentage: 0,
-                    color: _config2.default.colors[id],
-                    numParticles: 15
-                };
+            for (var i = 0; i < count; i += 1) {
+                var id = _config2.default.classNames[i]; // stays compatible
+                this.animator[i] = { highlight: false, percentage: 0,
+                    color: _config2.default.colors[id], numParticles: 15 };
             }
 
             this.renderOnce = true;
@@ -62376,7 +62298,7 @@ var WiresRight = function () {
 
     _createClass(WiresRight, [{
         key: 'render',
-        value: function render(once) {
+        value: function render() {
             this.context.clearRect(0, 0, this.width, this.height);
             this.context.lineWidth = 3;
 
@@ -63406,7 +63328,7 @@ var LaunchScreen = function () {
         document.querySelector('.wizard__browser-warning').style.display = 'block';
 
         var linkedinButton = document.querySelector('.intro__share-link--linkedin');
-        //var twitterButton = document.querySelector('.intro__share-link--twitter');
+        //let twitterButton = document.querySelector('.intro__share-link--twitter');
 
         var intro = document.querySelector('.intro__content-mobile');
         /*eslint-disable */
@@ -63419,21 +63341,21 @@ var LaunchScreen = function () {
 
         var loader = function (el) {
             var ajax = new XMLHttpRequest();
-            ajax.open('GET', 'assets/social-linkedin.png', true);
+            ajax.open('GET', 'assets/social-linkedin.svg', true);
             ajax.onload = function (event) {
                 el.innerHTML = ajax.responseText;
             };
             ajax.send();
         }(linkedinButton);
 
-        /*loader = function (el) {
-            var ajax = new XMLHttpRequest();
+        /*loader = ((el) => {
+            let ajax = new XMLHttpRequest();
             ajax.open('GET', 'assets/social-twitter.svg', true);
-            ajax.onload = function (event) {
+            ajax.onload = (event) => {
                 el.innerHTML = ajax.responseText;
             };
             ajax.send();
-        }(twitterButton);*/
+        })(twitterButton);*/
 
         linkedinButton.addEventListener('click', this.openlinkedinPopup.bind(this));
         //twitterButton.addEventListener('click', this.openTwitterPopup.bind(this));
@@ -63488,7 +63410,10 @@ var LaunchScreen = function () {
             event.preventDefault();
             var intro = document.querySelector('.intro');
             var offset = intro.offsetHeight;
-            _config2.default.wizard.skip();
+
+            if (_config2.default.wizard && typeof _config2.default.wizard.skip === 'function') {
+                _config2.default.wizard.skip();
+            }
             gtag('event', 'wizard_skip');
 
             if (_config2.default.browserUtils.isMobile) {
@@ -63501,11 +63426,12 @@ var LaunchScreen = function () {
                 var _event = new CustomEvent('mobileLaunch');
                 window.dispatchEvent(_event);
             }
+
             _gsap2.default.to(intro, 0.5, {
                 y: -offset,
                 onComplete: function onComplete() {
                     _this.destroy();
-                    if (!_config2.default.browserUtils.isMobile) {
+                    if (!_config2.default.browserUtils.isMobile && _config2.default.wizard && typeof _config2.default.wizard.startCamera === 'function') {
                         _config2.default.wizard.startCamera();
                     }
                 }
@@ -63522,21 +63448,26 @@ var LaunchScreen = function () {
         value: function startClick() {
             var _this2 = this;
 
+            //TAYO
             var intro = document.querySelector('.intro');
             var offset = intro.offsetHeight;
+
             if (_config2.default.browserUtils.isMobile || _config2.default.browserUtils.isSafari) {
                 _config2.default.inputSection.createCamInput();
                 _config2.default.camInput.start();
-                _config2.default.wizard.touchPlay();
-                var event = new CustomEvent('mobileLaunch');
-                window.dispatchEvent(event);
+                if (_config2.default.wizard && typeof _config2.default.wizard.touchPlay === 'function') {
+                    _config2.default.wizard.touchPlay();
+                }
+                window.dispatchEvent(new CustomEvent('mobileLaunch'));
             }
 
             _gsap2.default.to(intro, 0.5, {
                 y: -offset,
                 onComplete: function onComplete() {
                     _this2.destroy();
-                    _config2.default.wizard.start();
+                    if (_config2.default.wizard && typeof _config2.default.wizard.start === 'function') {
+                        _config2.default.wizard.start();
+                    }
                 }
             });
         }

@@ -1,41 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Teachable Machine</title>
+    <title>SignalGPT - AI-Powered RF Signal Analysis</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="assets/static/favicon/favicon.ico" />
     <link rel="apple-touch-icon-precomposed" href="assets/static/favicon/favicon-152.png">
     <link rel="shortcut icon" sizes="192x192" href="assets/static/favicon/favicon-192.png">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <meta name="fb:app_id" content="1442525379177526" />
-    <meta property="og:title" content="Teachable Machine" />
+    <meta property="og:title" content="SignalGPT - AI-Powered RF Signal Analysis" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://teachablemachine.withgoogle.com/" />
-    <meta property="og:image" content="https://teachablemachine.withgoogle.com/assets/static/share-image.jpg" />
-    <meta property="og:description" content="Teachable Machine: Explore machine learning, live in your browser." />
+    <meta property="og:description" content="GPT tuned for RF: understands, classifies, and reasons over radio signals—and beyond." />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@google" />
-    <meta name="twitter:title" content="Teachable Machine" />
-    <meta name="twitter:description" content="Teachable Machine: Explore machine learning, live in your browser." />
-    <meta name="twitter:image" content="https://teachablemachine.withgoogle.com/assets/static/share-image.jpg" />
+    <meta name="twitter:title" content="SignalGPT - AI-Powered RF Signal Analysis" />
+    <meta name="twitter:description" content="GPT tuned for RF: understands, classifies, and reasons over radio signals—and beyond." />
 
-    <meta itemprop="name" content="Teachable Machine">
-    <meta itemprop="description" content="Teachable Machine: Explore machine learning, live in your browser.">
+    <meta itemprop="name" content="SignalGPT">
+    <meta itemprop="description" content="GPT tuned for RF: understands, classifies, and reasons over radio signals—and beyond.">
     <meta itemprop="image" content="/assets/static/share-image.jpg">
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Caveat:700|Poppins:400,500,600,700" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <script src="auth.js"></script>
     <script src="bundle.js"></script>
     <!-- Updated 1533336779 -->
 </head>
-<body class="no-scroll">
+<body class="no-scroll auth-protected">
     <div class="wrapper">
         <div class="intro">
             <div class="intro__sharing">
@@ -43,10 +39,10 @@
                 <a href="https://twitter.com/home?status=Teachable%20Machine%3A%20Explore%20machine%20learning,%20live%20in%20your%20browser.%20No%20coding%20required%20%E2%86%92%20http%3A//g.co/teachablemachine%20%23teachablemachine" class="intro__share-link intro__share-link--twitter"></a>
             </div>
             <div class="intro__inner">
-                <h1 class="intro__title"><span class="hidden-text">Teachable Machine</span><img
+                <h1 class="intro__title"><span class="hidden-text">SignalGPT</span><img
                     src="assets/teachable-machine-splash-desktop.svg" alt="" class="intro__title-image intro__title-image--desktop"><img src="assets/teachable-machine-splash-desktop.svg" alt="" class="intro__title-image intro__title-image--mobile"></h1>
                     <span class="intro__content-desktop">
-                        <p class="intro__text">Teach a machine using your camera,<span class="intro__text-break"></span> live in the browser. No coding required.</p>
+                        <p class="intro__text">Train AI models for RF signal analysis,<span class="intro__text-break"></span> live in the browser. Advanced signal intelligence.</p>
                         <div class="intro__cta">
                             <a href="#" class="button button--large button--color-blue" id="start-tutorial-button">
                                 <span class="button__content">
@@ -315,8 +311,17 @@
     </div>
 </div>
 <footer class="footer">
-    <a href="https://experiments.withgoogle.com/ai" target="_blank" class="link"><img class="footer__image" src="./assets/footer.svg" alt="Made with some friends at Google"></a>
-    <a href="https://www.google.com/policies/" target="_blank" class="link link--privacy">Privacy &amp; Terms</a>
+    <div style="text-align: center; color: rgba(255,255,255,0.8); font-family: 'Poppins', sans-serif;">
+        <p style="margin: 10px 0; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <span style="background: linear-gradient(135deg, #3498db, #2980b9); padding: 8px 12px; border-radius: 6px; color: white; font-weight: 600;">SignalGPT</span>
+            <span style="color: rgba(255,255,255,0.6);">powered by</span>
+            <span style="color: #3498db; font-weight: 600;">AllSeeing Technologies</span>
+        </p>
+        <p style="margin: 5px 0; font-size: 12px; color: rgba(255,255,255,0.5);">
+            AI-Powered RF Signal Analysis • Canadian Innovation
+        </p>
+    </div>
+    <a href="https://www.allseeingtech.ca/privacy-and-terms" target="_blank" class="link link--privacy" style="color: rgba(255,255,255,0.4); text-decoration: none; font-size: 12px;">Privacy &amp; Terms</a>
 </footer>
 <p id="input__media__activate" class="input__media__activate"></p>
 </div>
