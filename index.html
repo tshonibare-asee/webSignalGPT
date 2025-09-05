@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Signal GPT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="tab-selector">
+                <li class="tab active" data-tab="chat">Chat</li>
+                <li class="tab" data-tab="processing-diagram">Processing Diagram</li>
+                <li class="tab" data-tab="signal-probe">Signal Probe</li>
+                <li class="tab" data-tab="available-blocks">Available Blocks</li>
+            </ul>
+        </div>
+        <div class="content">
+            <iframe id="content-frame" src="chat.html"></iframe>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
