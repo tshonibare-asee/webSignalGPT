@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Header -->
+    <header class="as-header">
+        <div class="as-header__inner">
+            <a href="#" class="as-header__brand">
+                <span style="font-size: 24px; font-weight: 700; color: #2F2E2E;">Web Signal GPT</span>
+            </a>
+        </div>
+    </header>
+
     <div id="container">
         <div id="sidebar">
             <ul class="tab-selector">
-                <li class="tab" onclick="showContent('chat')">Chat</li>
+                <li class="tab active" onclick="showContent('chat')">Chat</li>
                 <li class="tab" onclick="showContent('processing-diagram')">Processing Diagram</li>
                 <li class="tab" onclick="showContent('signal-probe')">Signal Probe</li>
                 <li class="tab" onclick="showContent('available-blocks')">Available Blocks</li>
             </ul>
         </div>
         <div id="main-content">
-            <iframe id="content-frame" src="default.html" frameborder="0"></iframe>
+            <iframe id="content-frame" src="chat.html" frameborder="0"></iframe>
         </div>
     </div>
 
@@ -26,6 +35,14 @@
 
         function showContent(tab) {
             const iframe = document.getElementById('content-frame');
+            const tabs = document.querySelectorAll('.tab');
+            
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
             switch (tab) {
                 case 'chat':
                     iframe.src = 'chat.html';
