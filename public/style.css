@@ -318,7 +318,7 @@ h4 {
 .recording-start__button .button__label {
   top: 8px !important;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .button__label br {
     display: block;
   }
@@ -507,7 +507,7 @@ body.no-scroll {
   height: 100%;
   background: #000;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .intro__inner {
     padding-top: 0;
   }
@@ -590,7 +590,7 @@ body.no-scroll {
     height: 30px;
   }
 }
-@media screen and (max-width: 900px) and (orientation: landscape) {
+@media screen and (max-width: 266px) and (orientation: landscape) {
   .intro__inner {
     margin-top: -20px;
     padding-bottom: 10px;
@@ -674,7 +674,7 @@ body.no-scroll {
     width: 25%;
   }
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .faq {
     margin: 0;
     margin-bottom: 80px;
@@ -708,7 +708,7 @@ body.no-scroll {
   display: inline-block;
   color: rgba(0,0,0,0.2);
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .footer {
     padding: 0 15px;
   }
@@ -1055,7 +1055,7 @@ body.no-scroll {
     margin-right: 20px;
   }
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .examples {
     margin-right: 10px;
   }
@@ -2050,7 +2050,7 @@ body.no-scroll {
 .wizard__gif-image {
   width: 100%;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .wizard__arrow {
     opacity: 0;
   }
@@ -2177,7 +2177,7 @@ body.no-scroll {
 .restart a {
   color: #fff;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 266px) {
   .recording {
     display: none;
   }

@@ -40,6 +40,123 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
+
+/* Login Modal Styles */
+    .login-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-modal.active {
+        display: flex;
+    }
+
+    .login-form {
+        background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+    }
+
+    .login-form__close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .login-form__close:hover {
+        color: white;
+    }
+
+    .login-form__title {
+        color: white;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #6a83ce, #4caf50);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .login-form__group {
+        margin-bottom: 1.5rem;
+    }
+
+    .login-form__label {
+        display: block;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .login-form__input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .login-form__input:focus {
+        outline: none;
+        border-color: #6a83ce;
+        box-shadow: 0 0 20px rgba(106, 131, 206, 0.3);
+    }
+
+    .login-form__input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .login-form__button {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #6a83ce, #4caf50);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .login-form__button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(106, 131, 206, 0.4);
+    }
+
+    .login-form__button:active {
+        transform: translateY(0);
+    }
+
+
+
     .tech-header__container {
         max-width: 1200px;
         margin: 0 auto;
@@ -117,6 +234,79 @@
     .tech-header__link:hover::after {
         width: 100%;
     }
+
+    /* Add these styles to your existing <style> section */
+.tech-header__cta {
+    background: linear-gradient(135deg, #6a83ce, #4caf50);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.tech-header__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(106, 131, 206, 0.4);
+    background: linear-gradient(135deg, #5a73be, #3ca042);
+}
+
+.tech-header__cta:active {
+    transform: translateY(0);
+}
+
+/* User info section styling when logged in */
+.tech-header__user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tech-header__user-info {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.tech-header__user-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #6a83ce, #4caf50);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tech-header__cta {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .tech-header__user {
+        gap: 0.5rem;
+    }
+    
+    .tech-header__user-info {
+        font-size: 0.8rem;
+    }
+    
+    .tech-header__user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
 
     .tech-header__status {
         display: flex;
@@ -241,10 +431,327 @@
                 0 0 70px rgba(148, 0, 211, 0.6);
         }
     }
+
+    .login-form[data-mode="login"] .only-signup { display: none; }
+    .login-form[data-mode="signup"] .only-login { display: none; }
+
+
     </style>
 </head>
 
+
+
+<!-- Firebase Auth Script -->
+<script type="module">
+  // 1) Firebase SDK imports (modular)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, setPersistence,
+    browserLocalPersistence, // change to browserSessionPersistence or inMemoryPersistence if you like
+    createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, updateProfile, sendEmailVerification
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // 2) Your Firebase config (replace with your values from Firebase console)
+  // Your web app's Firebase configuration. For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig  = {
+    apiKey: "AIzaSyBmYxWBOFK9ynF7OcCTp42r4zEf9QMmZVQ",
+    authDomain: "signalgpt-acdda.firebaseapp.com",
+    projectId: "signalgpt-acdda",
+    storageBucket: "signalgpt-acdda.firebasestorage.app",
+    messagingSenderId: "933280263439",
+    appId: "1:933280263439:web:a066f5b1de36512a10627a",
+    measurementId: "G-ZP6VLKNTEM"
+  };
+
+  // 3) Initialize Firebase + Auth
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  await setPersistence(auth, browserLocalPersistence); // persists across browser restarts
+
+  // 4) Small helpers
+  const $ = (sel) => document.querySelector(sel);
+  const toast = (msg, kind="info") => {
+    const el = Object.assign(document.createElement("div"), { textContent: msg });
+    el.style.cssText = `
+      position:fixed;top:100px;right:20px;padding:1rem 2rem;border-radius:10px;
+      color:#fff;font-weight:600;z-index:10001;opacity:0;transform:translateX(100%);
+      transition:all .3s ease;`;
+    el.style.background =
+      kind==="success" ? "linear-gradient(135deg,#4caf50,#45a049)" :
+      kind==="error"   ? "linear-gradient(135deg,#f44336,#da190b)" :
+                         "linear-gradient(135deg,#6a83ce,#4caf50)";
+    document.body.appendChild(el);
+    setTimeout(()=>{el.style.opacity=1;el.style.transform="translateX(0)";},50);
+    setTimeout(()=>{el.style.opacity=0;el.style.transform="translateX(100%)";setTimeout(()=>el.remove(),300);},3000);
+  };
+  const nameFromEmail = (email) => email.split("@")[0];
+
+  // 5) Hook up your modal & form
+  const authForm   = $("#auth-form");      // container with data-mode="login" | "signup"
+  const loginModal = $("#login-modal");
+  const loginForm  = $("#login-form-element");
+  const toggleAuth = $("#toggle-auth");
+  const submitBtn  = $("#submit-btn");
+  const loginBtn   = $("#login-btn");
+  const closeBtn   = $("#close-login");
+  const logoutBtn  = $("#logout-btn");
+
+  // Open modal in LOGIN mode
+  loginBtn?.addEventListener("click", () => {
+    authForm.dataset.mode = "login";
+    submitBtn.textContent = "Log in";
+    $("#auth-title").textContent = "Log in to SignalGPT";
+    loginModal.classList.add("active");
+  });
+  // Close modal
+  closeBtn?.addEventListener("click", ()=> loginModal.classList.remove("active"));
+  loginModal?.addEventListener("click",(e)=>{ if(e.target===loginModal) loginModal.classList.remove("active"); });
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") loginModal.classList.remove("active"); });
+
+  // Toggle signup/login
+  toggleAuth?.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const next = authForm.dataset.mode==="login" ? "signup" : "login";
+    authForm.dataset.mode = next;
+    submitBtn.textContent = next==="login" ? "Log in" : "Sign up";
+    $("#auth-title").textContent = next==="login" ? "Log in to SignalGPT" : "Create your SignalGPT account";
+  });
+
+  // 6) Submit handler (Sign up or Log in)
+  loginForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const mode        = authForm.dataset.mode;
+    const email       = $("#email").value.trim().toLowerCase();
+    const displayName = ($("#displayName")?.value || "").trim();
+    const password    = $("#password").value;
+    const confirm     = $("#confirm")?.value;
+
+    try {
+      if (mode === "signup") {
+        if (password.length < 8) throw new Error("Use at least 8 characters.");
+        if (password !== confirm) throw new Error("Passwords do not match.");
+
+        // Create the account
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        // Set a displayName for header/avatar (falls back to email prefix)
+        await updateProfile(cred.user, { displayName: displayName || nameFromEmail(email) });
+        // Optional: send verification email
+        try { await sendEmailVerification(cred.user); } catch {}
+        toast("Account created! Check your email for verification.", "success");
+      } else {
+        // Log in
+        await signInWithEmailAndPassword(auth, email, password);
+      }
+      loginModal.classList.remove("active");
+      loginForm.reset();
+    } catch (err) {
+      // Map common Firebase auth errors to friendly messages
+      const code = err?.code || "";
+      const msg =
+        code === "auth/email-already-in-use"    ? "That email is already registered." :
+        code === "auth/invalid-email"           ? "Please enter a valid email." :
+        code === "auth/weak-password"           ? "Please choose a stronger password." :
+        code === "auth/user-not-found"          ? "No account found for that email." :
+        code === "auth/wrong-password"          ? "Incorrect password." :
+        code === "auth/too-many-requests"       ? "Too many attempts. Try again later." :
+        err.message || "Authentication error";
+      toast(msg, "error");
+      console.error(err);
+    }
+  });
+
+  // 7) Sign out
+  logoutBtn?.addEventListener("click", async () => {
+    await signOut(auth);
+    toast("Signed out", "info");
+  });
+
+  // 8) Reflect auth state in your header UI (avatar + username)
+  const userInfo     = $("#user-info");
+  const loginSection = $("#login-section");
+  const userName     = $("#user-name");
+  const userAvatar   = $("#user-avatar");
+
+  // Optional: make a per-login session ID (separate from Firebase tokens)
+  function makeSessionId() {
+    const sid = crypto.randomUUID();
+    localStorage.setItem("signalgpt_session_id", sid);
+    return sid;
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const display = user.displayName || nameFromEmail(user.email || "");
+      userInfo.style.display = "flex";
+      loginSection.style.display = "none";
+      userName.textContent = `Welcome, ${display}`;
+      userAvatar.textContent = display.charAt(0).toUpperCase();
+      userAvatar.title = user.email || "";
+
+      // Create/refresh your own per-login session id (optional)
+      if (!localStorage.getItem("signalgpt_session_id")) makeSessionId();
+
+      // If you ever need a stable unique ID for the user, use user.uid
+      // Access/ID tokens are handled by Firebase behind the scenes
+    } else {
+      userInfo.style.display = "none";
+      loginSection.style.display = "flex";
+      localStorage.removeItem("signalgpt_session_id");
+    }
+  });
+</script>
+
+<script type="module">
+// After your existing Firebase setup…
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const auth = getAuth();
+
+// Reuse your existing iframe code:
+const CHAT_URL = "http://localhost:8004/";
+const DIAGRAM_URL = "http://localhost:8003/";
+const BLOCKS_URL  = "http://localhost:8006/";
+
+let chatEventSource = null;
+
+//function startChatStream(uid) {
+//  if (chatEventSource) chatEventSource.close();
+//  chatEventSource = new EventSource(`http://127.0.0.1:8004/chat_stream?uid=${encodeURIComponent(uid)}`);
+  // (keep the same onmessage/onerror handlers you already have)
+//}
+
+// === Parent → Child auth handoff (reply to iframes that ask) ===
+const ALLOWED_ORIGINS = new Set([
+  new URL(CHAT_URL).origin,
+  new URL(DIAGRAM_URL).origin,
+  new URL(BLOCKS_URL).origin
+]);
+
+window.addEventListener("message", (ev) => {
+  // Only answer explicit auth requests from our iframes
+  if (!ev.data || ev.data.type !== "signalgpt-auth-request") return;
+  if (!ALLOWED_ORIGINS.has(ev.origin)) return; // drop anything unexpected
+
+  const authInfo = window.__SIGNALGPT__;
+  if (authInfo?.uid) {
+    ev.source?.postMessage(
+      { type: "signalgpt-auth", uid: authInfo.uid, idToken: authInfo.idToken },
+      ev.origin
+    );
+  } else {
+    // (optional) tell child there’s no user yet
+    ev.source?.postMessage(
+      { type: "signalgpt-auth", error: "not-logged-in" },
+      ev.origin
+    );
+  }
+});
+
+
+
+function setChatIframe(uid) {
+  const iframe = document.querySelector('#output-container_iframe iframe');
+  if (iframe) {
+    const url = `${CHAT_URL}?uid=${encodeURIComponent(uid)}`;
+    if (iframe.src !== url) iframe.src = url;
+  }
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const idToken = await user.getIdToken();     // save if you need to POST /prompt
+    window.__SIGNALGPT__ = { uid: user.uid, idToken };
+
+    // Update the eval/inference iframe with credentials
+    const inf = document.querySelector('#inference-container_iframe iframe');
+    if (inf) {
+    const ORIGIN_8002 = "http://localhost:8002";
+
+    // Easiest: reload with uid/idToken in the URL
+    inf.src = `${ORIGIN_8002}/?uid=${encodeURIComponent(user.uid)}&idToken=${encodeURIComponent(idToken)}`;
+
+    // Also proactively postMessage so it works without a reload
+    try {
+        inf.contentWindow?.postMessage(
+        { type: "signalgpt-auth", uid: user.uid, idToken },
+        ORIGIN_8002
+        );
+    } catch {}
+    }
+
+
+
+
+    setChatIframe(user.uid);                     // <-- pass uid into chat iframe
+    //startChatStream(user.uid);                   // <-- watch only this uid
+  } else {
+    window.__SIGNALGPT__ = null;
+    if (chatEventSource) { chatEventSource.close(); chatEventSource = null; }
+    // Optional: blank out the chat iframe if signed out
+    const iframe = document.querySelector('#output-container_iframe iframe');
+    if (iframe) iframe.src = CHAT_URL;
+
+    // Also reset the Eval/Inference iframe when signed out
+    const inf = document.querySelector('#inference-container_iframe iframe');
+    if (inf) {
+    const ORIGIN_8002 = "http://localhost:8002";
+    // Clear any previous uid/idToken in the URL
+    inf.src = `${ORIGIN_8002}/`;
+    // Proactively notify eval.html to drop auth and show "Waiting for user prompt"
+    try { inf.contentWindow?.postMessage({ type: "signalgpt-logout" }, ORIGIN_8002); } catch {}
+    }
+
+  }
+});
+</script>
+
+
+
+
+
 <body class="no-scroll">
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal">
+        <div class="login-form" id="auth-form" data-mode="login">
+            <button class="login-form__close" id="close-login">&times;</button>
+            <h2 class="login-form__title" id="auth-title">Welcome to SignalGPT</h2>
+            <form id="login-form-element">
+            <div class="login-form__group">
+                <label for="email" class="login-form__label">Email</label>
+                <input type="email" id="email" name="email" class="login-form__input" placeholder="you@domain.com" required>
+            </div>
+
+            <div class="login-form__group only-signup">
+                <label for="displayName" class="login-form__label">Display name (shown in header)</label>
+                <input type="text" id="displayName" name="displayName" class="login-form__input" placeholder="e.g., Tayo">
+            </div>
+
+            <div class="login-form__group">
+                <label for="password" class="login-form__label">Password</label>
+                <input type="password" id="password" name="password" class="login-form__input" placeholder="••••••••" required>
+            </div>
+
+            <div class="login-form__group only-signup">
+                <label for="confirm" class="login-form__label">Confirm password</label>
+                <input type="password" id="confirm" name="confirm" class="login-form__input" placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="login-form__button" id="submit-btn">Log in</button>
+
+            <p style="margin-top:1rem;text-align:center;color:rgba(255,255,255,.8)">
+                <span class="only-login">Don’t have an account?</span>
+                <span class="only-signup">Already have an account?</span>
+                <a href="#" id="toggle-auth" style="font-weight:600;">SignUp</a>
+            </p>
+            </form>
+        </div>
+        </div>
+
+
+
+
 
     <!-- Option 1: Minimalist Tech Header -->
     <header class="tech-header" id="tech-header">
@@ -252,21 +759,43 @@
             <a href="https://www.allseeingtech.ca/" class="tech-header__brand">
                 <img src="assets/AllSeeingTransparentLogo.png" alt="AllSeeing" class="tech-header__logo">
                 <span class="tech-header__title">SignalGPT</span>
-            </a>            
+            </a>
+            
+            <!-- User info section (shown when logged in) -->
+            <div id="user-info" class="tech-header__user" style="display: none;">
+                <span id="user-name" class="tech-header__user-info">Welcome, User</span>
+                <div id="user-avatar" class="tech-header__user-avatar">U</div>
+                <button id="logout-btn" class="tech-header__cta">Logout</button>
+            </div>
+            
+            <!-- Login button (shown when not logged in) -->
+            <div id="login-section" class="tech-header__nav">
+                <button id="login-btn" class="tech-header__cta">Login</button>
+            </div>
         </div>
     </header>
 
+
+
     <script>
-    // Header scroll effect
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('tech-header');
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('tech-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
     </script>
+
+
+
+
+
+
+
+
     
     <div class="wrapper">
         <div class="intro">
@@ -317,26 +846,16 @@
                 <div class="machine" id="machine">
                     <div class="machine__sections" style="align-items:center;justify-content: center;">
                         <div id="input-section" class="section" style="flex-basis:550px;margin:0px;">
-                            <h1 class="section__title"><span>SIGNAL SOURCE/SINK</span></h1>
+                            <h1 class="section__title"><span>SIGNAL DISPLAY</span></h1>
                             
-                            <div class="section__container">
-                                <h3 class="section__title"><span>Channel A - VECTOR PLOT</span></h3>
-                                <div class="input__media" style="background-color:#fff;">
+                            <div class="section__container" style="min-width:350px">
+                                <!--<h3 class="section__title"><span>VECTOR PLOT</span></h3>-->
+                                <div class="input__media" style="background-color:#fff;width:100%">
                                     <div id="wf-container" style="height:100%;">
                                         <div id="wf-container_iframe"></div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="section__container">
-                                <h3 class="section__title"><span>CHANNEL N</span></h3>
-                                <div class="input__media" style="background-color:#fff;">
-                                    <div id="psd-container" style="height:100%;">
-                                        <div id="psd-container_iframe" ></div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
                     <div class="wires wires--left"></div>
@@ -346,7 +865,7 @@
                         
                         <div class="section__container" style="width:350px">
                             <div class="input__media" style="background-color: #fff;height:450px;">
-                                <div id="inference-container" style="display:block;">
+                                <div id="inference-container" style="display:block;height:100%;">
                                     <div id="inference-container_iframe"></div>
                                 </div>
                             </div> 
@@ -618,7 +1137,7 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 </script>
 
 
-<script>
+<!--<script>
     (function () {
     // Your standalone power spectrum page:
     const WF_PAGE_URL = "http://localhost:8001/";  // Channel B iframe
@@ -648,38 +1167,35 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 
     host.appendChild(iframe);
     })();
-</script>
+</script>-->
 
 
 <script>
     (function () {
-    // Your standalone power spectrum page:
-    const WF_PAGE_URL = "http://localhost:8002/";  // AI tasking iFrame
-
+    // Eval / Inference iframe
+    const INF_URL = "http://localhost:8002/";
     const host = document.getElementById("inference-container_iframe");
-    host.innerHTML = ""; // clear any placeholders
+    host.innerHTML = "";
 
     const iframe = document.createElement("iframe");
-    iframe.src = WF_PAGE_URL;
+
+    // If already logged in, pass auth via URL so eval.html can start immediately
+    const u  = window.__SIGNALGPT__?.uid || "";
+    const tk = window.__SIGNALGPT__?.idToken || "";
+    iframe.src = u ? `${INF_URL}?uid=${encodeURIComponent(u)}&idToken=${encodeURIComponent(tk)}`
+                    : INF_URL;
+
     iframe.title = "Inference Display";
     iframe.setAttribute("frameborder", "0");
     iframe.setAttribute("scrolling", "no");
     iframe.style.cssText = [
-        "display:block",
-        "width:100%",
-        "height:100%",   // will fill the container
-        "border:0",
-        "margin:0",
-        "padding:0",
-        "background:transparent"
+        "display:block","width:100%","height:100%","border:0","margin:0","padding:0","background:transparent"
     ].join(";");
-
-    // Make the container act as a fixed viewport for the embed
-    host.style.cssText += ";position:relative;overflow:hidden;width:100%;height:450px;margin:0;padding:0;border:0";
-
+    host.style.cssText += ";position:relative;overflow:hidden;width:100%;height:100%;margin:0;padding:0;border:0";
     host.appendChild(iframe);
     })();
 </script>
+
 
 
 
@@ -724,24 +1240,46 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
     if (iframe.src !== url) iframe.src = url;
   }
 
+  function chatUrl() {
+    const u = window.__SIGNALGPT__?.uid;
+    return u ? `${CHAT_URL}?uid=${encodeURIComponent(u)}` : CHAT_URL;
+    }
+
   // Wire up clicks
   tabChat.addEventListener("click",    () => { 
     setActive(tabChat);    
-    loadOutput(CHAT_URL);
+    loadOutput(chatUrl());
     // Clear chat notification when user views chat
     clearNotification('chat');
   });
   tabDiagram.addEventListener("click", () => { 
     setActive(tabDiagram); 
-    loadOutput(DIAGRAM_URL);
+    const uid = window.__SIGNALGPT__?.uid || "";
+    loadOutput(`${DIAGRAM_URL}?uid=${encodeURIComponent(uid)}`);
     // Clear diagram notification when user views diagram
     clearNotification('diagram');
   });
-  tabBlocks.addEventListener("click",  () => { setActive(tabBlocks);  loadOutput(BLOCKS_URL);  });
+  tabBlocks.addEventListener("click",  () => { 
+    setActive(tabBlocks);  
+    loadOutput(BLOCKS_URL);  
+    });
+
+    // let mermaid/eval/chat ask for auth if they need it
+    window.addEventListener("message", (ev) => {
+    if (ev.data && ev.data.type === "signalgpt-auth-request" && window.__SIGNALGPT__?.uid) {
+        ev.source?.postMessage(
+        { type:"signalgpt-auth", uid: window.__SIGNALGPT__.uid, idToken: window.__SIGNALGPT__.idToken },
+        ev.origin || "*"
+        );
+    }
+    });
+
 
   // Default to Chat (current behavior)
   setActive(tabChat);
-  loadOutput(CHAT_URL);
+  loadOutput(chatUrl());
+  clearNotification('chat');
+
 
   // Notification system for chat stream monitoring
   let lastSeenChatId = 0;
@@ -764,49 +1302,48 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
   }
 
   // Monitor chat stream for new messages
-  function connectToChatStream() {
+    function connectToChatStream() {
     try {
-      const eventSource = new EventSource('http://127.0.0.1:8004/chat_stream');
-      
-      eventSource.onmessage = function(event) {
-        try {
-          // Parse the incoming data
-          const data = JSON.parse(event.data);
-          
-          // Check for new assistant messages
-          if (data.role === 'assistant' && data.id > lastSeenChatId) {
-            lastSeenChatId = data.id;
-            // Only show notification if chat tab is not currently active
-            if (!tabChat.classList.contains('is-active')) {
-              showNotification('chat');
-            }
-          }
-          
-          // Check for new diagram updates (messages with /media? images)
-          if (data.image && data.image.includes('/media?') && data.id > lastSeenDiagramId) {
-            lastSeenDiagramId = data.id;
-            // Only show notification if diagram tab is not currently active
-            if (!tabDiagram.classList.contains('is-active')) {
-              showNotification('diagram');
-            }
-          }
-        } catch (parseError) {
-          console.log('Error parsing chat stream data:', parseError);
+        const uid = window.__SIGNALGPT__?.uid;
+        if (!uid) {
+        // not logged in yet; try again shortly
+        setTimeout(connectToChatStream, 2000);
+        return;
         }
-      };
 
-      eventSource.onerror = function(error) {
+        // Prefer the same host/port as CHAT_URL
+        const base = (typeof CHAT_URL === "string" ? CHAT_URL : "http://127.0.0.1:8004/").replace(/\/$/, "");
+        const eventSource = new EventSource(`${base}/chat_stream?uid=${encodeURIComponent(uid)}`);
+
+        eventSource.onmessage = function (event) {
+        try {
+            const data = JSON.parse(event.data);
+
+            if (data.role === 'assistant' && data.id > lastSeenChatId) {
+            lastSeenChatId = data.id;
+            if (!tabChat.classList.contains('is-active')) showNotification('chat');
+            }
+
+            if (data.image && data.image.includes('/media?') && data.id > lastSeenDiagramId) {
+            lastSeenDiagramId = data.id;
+            if (!tabDiagram.classList.contains('is-active')) showNotification('diagram');
+            }
+        } catch (parseError) {
+            console.log('Error parsing chat stream data:', parseError);
+        }
+        };
+
+        eventSource.onerror = function (error) {
         console.log('Chat stream connection error:', error);
         // Attempt to reconnect after 5 seconds
         setTimeout(connectToChatStream, 5000);
-      };
-
+        };
     } catch (error) {
-      console.log('Failed to connect to chat stream:', error);
-      // Attempt to reconnect after 5 seconds
-      setTimeout(connectToChatStream, 5000);
+        console.log('Failed to connect to chat stream:', error);
+        setTimeout(connectToChatStream, 5000);
     }
-  }
+    }
+
 
   // Start monitoring the chat stream
   connectToChatStream();
@@ -897,6 +1434,23 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
       showImage(data.src, data.alt);
     }
   });
+
+  // Reply to auth requests from child iframes (e.g., eval.html)
+window.addEventListener("message", (ev) => {
+  if (ev?.data?.type === "signalgpt-auth-request" && window.__SIGNALGPT__?.uid) {
+    ev.source?.postMessage(
+      {
+        type: "signalgpt-auth",
+        uid: window.__SIGNALGPT__.uid,
+        idToken: window.__SIGNALGPT__.idToken
+      },
+      ev.origin || "*"
+    );
+  }
+});
+
+
+
 })();
 </script>
 
