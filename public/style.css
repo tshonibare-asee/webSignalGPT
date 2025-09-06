@@ -2193,6 +2193,81 @@ body.no-scroll {
     transform: translateX(100%);
   }
 }
+
+/* User Profile Styles */
+#user-profile {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#user-avatar {
+  flex-shrink: 0;
+}
+
+#user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+#user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#user-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+#logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#logout-btn:hover {
+  background-color: #c82333;
+}
+
+#logout-btn:active {
+  transform: translateY(1px);
+}
+
+#login-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#login-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Ensure sidebar has proper styling */
+#sidebar {
+  background-color: #fff;
+  border-right: 1px solid #e0e0e0;
+}
 @-webkit-keyframes loader {
   0% {
     transform: translateX(0%);

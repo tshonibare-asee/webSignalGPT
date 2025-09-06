@@ -9,6 +9,19 @@
 <body>
     <div id="container">
         <div id="sidebar">
+            <!-- User Profile Section -->
+            <div id="user-profile">
+                <div id="user-avatar">
+                    <img id="user-image" src="https://via.placeholder.com/40x40?text=U" alt="User Avatar">
+                </div>
+                <div id="user-info">
+                    <span id="user-name">Loading...</span>
+                    <button id="logout-btn" onclick="logoutUser()" style="display:none;">Logout</button>
+                    <button id="login-btn" onclick="goToLogin()" style="display:none;">Login</button>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
             <ul class="tab-selector">
                 <li class="tab" onclick="showContent('chat')">Chat</li>
                 <li class="tab" onclick="showContent('processing-diagram')">Processing Diagram</li>
@@ -22,7 +35,64 @@
     </div>
 
     <script>
-        // Existing Firebase authentication and session management code here
+        // Mock Firebase authentication for demonstration
+        // In production, you would replace this with actual Firebase config
+        
+        // Mock user data - this would come from Firebase in a real implementation
+        let currentUser = {
+            uid: 'demo-user-123',
+            displayName: 'John Doe',
+            email: 'john.doe@example.com',
+            photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format&q=60'
+        };
+
+        // Simulate authentication state
+        let isAuthenticated = true;
+
+        // Initialize user profile on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserProfile();
+        });
+
+        function updateUserProfile() {
+            const userImage = document.getElementById('user-image');
+            const userName = document.getElementById('user-name');
+            const logoutBtn = document.getElementById('logout-btn');
+            const loginBtn = document.getElementById('login-btn');
+            
+            if (isAuthenticated && currentUser) {
+                // User is signed in
+                userName.textContent = currentUser.displayName || currentUser.email || 'User';
+                userImage.src = currentUser.photoURL || 'https://via.placeholder.com/40x40?text=' + (currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : 'U');
+                userImage.alt = currentUser.displayName || 'User Avatar';
+                logoutBtn.style.display = 'block';
+                loginBtn.style.display = 'none';
+            } else {
+                // User is signed out
+                userName.textContent = 'Not signed in';
+                userImage.src = 'https://via.placeholder.com/40x40?text=?';
+                userImage.alt = 'No user';
+                logoutBtn.style.display = 'none';
+                loginBtn.style.display = 'block';
+            }
+        }
+
+        function goToLogin() {
+            window.location.href = './login.html';
+        }
+
+        function logoutUser() {
+            // In a real Firebase implementation, this would call signOut(auth)
+            isAuthenticated = false;
+            currentUser = null;
+            updateUserProfile();
+            
+            console.log('User signed out successfully');
+            alert('You have been logged out successfully!');
+            
+            // Optionally redirect to login page
+            // window.location.href = '/login.html';
+        }
 
         function showContent(tab) {
             const iframe = document.getElementById('content-frame');
@@ -43,6 +113,34 @@
                     iframe.src = 'default.html';
             }
         }
+
+        /* 
+        // Real Firebase implementation would look like this:
+        
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            // Your actual Firebase config
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            isAuthenticated = !!user;
+            updateUserProfile();
+        });
+
+        function logoutUser() {
+            signOut(auth).then(() => {
+                console.log('User signed out successfully');
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        }
+        */
     </script>
 </body>
 </html>
